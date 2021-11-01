@@ -1,0 +1,34 @@
+{
+  "name": "tapo-adapter-ts",
+  "version": "0.0.1",
+  "description": "Webthings adapter for TP-Link Tapo devices",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dickydoouk/tapo-adapter-ts.git"
+  },
+  "author": "dickydoouk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dickydoouk/tapo-adapter-ts/issues"
+  },
+  "homepage": "https://github.com/dickydoouk/tapo-adapter-ts#readme",
+  "devDependencies": {
+    "@types/ws": "^7.4.4",
+    "@typescript-eslint/eslint-plugin": "^4.26.0",
+    "@typescript-eslint/parser": "^4.26.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.27.0",
+    "eslint-config-prettier": "^8.3.0",
+    "gateway-addon": "^1.0.0",
+    "json-schema-to-typescript": "^10.1.4",
+    "prettier": "^2.3.0",
+    "typescript": "^4.3.2"
+  },
+  "dependencies": {
+    "tp-link-tapo-connect": "^1.0.6"
+  }
+}

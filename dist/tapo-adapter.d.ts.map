@@ -1,0 +1,1 @@
+{"version":3,"file":"tapo-adapter.d.ts","sourceRoot":"","sources":["../src/tapo-adapter.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,iBAAiB,EAAY,MAAM,eAAe,CAAC;AAIrE,qBAAa,WAAY,SAAQ,OAAO;gBAExB,YAAY,EAAE,iBAAiB;IAUzC,YAAY,IAAI,IAAI;YAIN,cAAc;YAgBd,SAAS;CAK5B"}

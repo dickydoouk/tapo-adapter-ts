@@ -1,0 +1,41 @@
+{
+    "manifest_version": 1,
+    "id": "tapo-adapter-ts",
+    "name": "TP-Link Tapo",
+    "short_name": "tapo-adapter-ts",
+    "version": "0.0.1",
+    "description": "TP-Link Tapo adapter",
+    "homepage_url": "https://github.com/dickydoouk/tapo-adapter-ts",
+    "license": "ISC",
+    "author": "dickydoouk",
+    "gateway_specific_settings": {
+      "webthings": {
+        "exec": "{nodeLoader} {path}",
+        "primary_type": "adapter",
+        "strict_max_version": "*",
+        "strict_min_version": "1.0.0"
+      }
+    },
+    "options": {
+      "default": {
+        "optionalSetting": "default value"
+      },
+      "schema": {
+        "type": "object",
+        "required": [
+          "username",
+          "password"
+        ],
+        "properties": {
+          "username": {
+            "type": "string",
+            "title": "TP-Link Tapo Username"
+          },
+          "password": {
+            "type": "string",
+            "title": "TP-Link Tapo Password"
+          }
+        }
+      }
+    }
+  }

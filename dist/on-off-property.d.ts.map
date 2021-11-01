@@ -1,0 +1,1 @@
+{"version":3,"file":"on-off-property.d.ts","sourceRoot":"","sources":["../src/on-off-property.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,eAAe,CAAC;AACzC,OAAO,EAAE,UAAU,EAAE,MAAM,eAAe,CAAC;AAE3C,qBAAa,aAAc,SAAQ,QAAQ,CAAC,OAAO,CAAC;gBACtC,MAAM,EAAE,UAAU;IAQ9B,MAAM,CAAC,KAAK,EAAE,GAAG,GAAG,IAAI;IAMlB,QAAQ,CAAC,KAAK,EAAE,OAAO,GAAG,OAAO,CAAC,OAAO,CAAC;CAMjD"}
