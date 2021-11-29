@@ -1,6 +1,6 @@
 import { Adapter, AddonManagerProxy, Database } from 'gateway-addon';
-import { cloudLogin, isTapoDevice, listDevices } from 'tp-link-tapo-connect';
-import { TapoDevice } from './tapo-device';
+import { cloudLogin, isTapoDevice, listDevices, loginDevice } from 'tp-link-tapo-connect';
+import { MyTapoDevice } from './tapo-device';
 
 export class TapoAdapter extends Adapter {
 
@@ -12,6 +12,8 @@ export class TapoAdapter extends Adapter {
         const config = this.getConfig();
 
         console.log({config})
+
+        this.startPairing();
       }
 
       startPairing(): void {
@@ -29,8 +31,9 @@ export class TapoAdapter extends Adapter {
         console.log(`Found ${tapoDevices.length} Tapo devices`);
         console.log({tapoDevices})
 
-        tapoDevices.map(device => {
-          this.handleDeviceAdded(new TapoDevice(this, device));
+        tapoDevices.map(async device => {
+          const deviceKey = await loginDevice(username, password, device)
+          this.handleDeviceAdded(new MyTapoDevice(this, device, deviceKey));
         });
       }
 

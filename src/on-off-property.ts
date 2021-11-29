@@ -1,8 +1,8 @@
-import { Property } from 'gateway-addon';
-import { TapoDevice } from './tapo-device';
+import { Property, } from 'gateway-addon';
+import { MyTapoDevice } from './tapo-device';
 
 export class OnOffProperty extends Property<boolean> {
-  constructor(private device: TapoDevice) {
+  constructor(device: MyTapoDevice) {
     super(device, 'on', {
       '@type': 'OnOffProperty',
       label: 'On/Off',
@@ -19,7 +19,7 @@ export class OnOffProperty extends Property<boolean> {
   async setValue(value: boolean): Promise<boolean> {
     const newValue = await super.setValue(value);
  //   const state = { on: newValue };
-    await this.device.turnOn(state.on);
+    await (this.getDevice() as MyTapoDevice).on(newValue);
     
     return newValue;
   }
