@@ -1,10 +1,7 @@
 import { Device } from 'gateway-addon';
 import { OnOffProperty } from './on-off-property';
 import { TapoAdapter } from './tapo-adapter';
-import { TapoDevice, turnOn, TapoDeviceKey } from 'tp-link-tapo-connect';
-
-//import { cloudLogin, listDevices, listDevicesByType, loginDevice, loginDeviceByIp, getDeviceInfo, turnOn, setBrightness, setColour } from './api';
-
+import { TapoDevice, turnOn, getDeviceInfo, TapoDeviceKey } from 'tp-link-tapo-connect';
 
 export class MyTapoDevice extends Device {
     private onOffProperty: OnOffProperty;
@@ -14,7 +11,7 @@ export class MyTapoDevice extends Device {
         private tapoDevice: TapoDevice,
         private deviceKey: TapoDeviceKey
     ) {
-        super(adapter, tapoDevice.deviceId);
+        super(adapter, 'tapo-'+tapoDevice.deviceId);
         this.setTitle(tapoDevice.alias);
         this.addType('OnOffSwitch');
         this.addType('Light');
@@ -27,8 +24,16 @@ export class MyTapoDevice extends Device {
     }
 
     async on(onState: boolean) {
-        console.log('Turning On/Off '+this.tapoDevice.alias);
         await turnOn(this.deviceKey, onState)
     }
       
+    async update() {
+        try {
+            const deviceStatus = await getDeviceInfo(this.deviceKey);
+            this.onOffProperty.update(deviceStatus)
+        } catch (error) {
+            console.log(`Error updating ${this.tapoDevice.alias} with ${this.deviceKey.token}`)
+            console.error(error);
+        }
+    }
 }

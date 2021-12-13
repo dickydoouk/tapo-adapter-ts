@@ -6,14 +6,11 @@ export class TapoAdapter extends Adapter {
 
     constructor(addonManager: AddonManagerProxy) {
         super(addonManager, `tapo-adapter`, 'tapo-adapter-ts');
-    
         addonManager.addAdapter(this);
 
-        const config = this.getConfig();
-
-        console.log({config})
-
         this.startPairing();
+
+        this.updateDevices();
       }
 
       startPairing(): void {
@@ -29,12 +26,17 @@ export class TapoAdapter extends Adapter {
         const tapoDevices = devices.filter(device => isTapoDevice(device.deviceType))
 
         console.log(`Found ${tapoDevices.length} Tapo devices`);
-        console.log({tapoDevices})
-
+        
         tapoDevices.map(async device => {
           const deviceKey = await loginDevice(username, password, device)
           this.handleDeviceAdded(new MyTapoDevice(this, device, deviceKey));
         });
+      }
+
+      private async updateDevices(): Promise<void> {
+        const devices = await this.getDevices() as Record<string, MyTapoDevice>;
+        Object.entries(devices).forEach(([_, device]) => device.update());
+        setTimeout(() => this.updateDevices(), 5000);
       }
 
       private async getConfig(): Promise<any> {

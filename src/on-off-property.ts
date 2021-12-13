@@ -1,4 +1,5 @@
 import { Property, } from 'gateway-addon';
+import { TapoDeviceInfo } from 'tp-link-tapo-connect';
 import { MyTapoDevice } from './tapo-device';
 
 export class OnOffProperty extends Property<boolean> {
@@ -10,17 +11,13 @@ export class OnOffProperty extends Property<boolean> {
     });
   }
 
-  update(light: any): void {
-    if (typeof light.state.on === 'boolean') {
-      this.setCachedValueAndNotify(light.state.on);
-    }
+  update(deviceStatus: TapoDeviceInfo): void {
+    this.setCachedValueAndNotify(deviceStatus.device_on);
   }
 
   async setValue(value: boolean): Promise<boolean> {
     const newValue = await super.setValue(value);
- //   const state = { on: newValue };
     await (this.getDevice() as MyTapoDevice).on(newValue);
-    
     return newValue;
   }
 }
