@@ -1,15 +1,15 @@
 import { Device } from 'gateway-addon';
 import { OnOffProperty } from './on-off-property';
 import { TapoAdapter } from './tapo-adapter';
-import { TapoDevice, turnOn, getDeviceInfo, TapoDeviceKey } from 'tp-link-tapo-connect';
+import { TapoDevice } from 'tp-link-tapo-connect';
 
 export class MyTapoDevice extends Device {
     private onOffProperty: OnOffProperty;
-
+    
     constructor(
         adapter: TapoAdapter,
         private tapoDevice: TapoDevice,
-        private deviceKey: TapoDeviceKey
+        private deviceApi: any
     ) {
         super(adapter, 'tapo-'+tapoDevice.deviceId);
         this.setTitle(tapoDevice.alias);
@@ -17,6 +17,9 @@ export class MyTapoDevice extends Device {
         this.addType('Light');
         this.onOffProperty = new OnOffProperty(this);
         this.addProperty(this.onOffProperty);
+
+        console.log(`Found Tapo device ${tapoDevice.alias}`);
+        console.log({tapoDevice})
     }
 
     addType(type: string): void {
@@ -24,15 +27,22 @@ export class MyTapoDevice extends Device {
     }
 
     async on(onState: boolean) {
-        await turnOn(this.deviceKey, onState)
+        console.log(`Turning ${this.tapoDevice.alias} ${onState?'On':'Off'}`);
+        if (onState) {
+            await this.deviceApi.turnOn();
+        } else {
+            await this.deviceApi.turnOff();
+        }
     }
       
     async update() {
         try {
-            const deviceStatus = await getDeviceInfo(this.deviceKey);
+            const deviceStatus = await this.deviceApi.getDeviceInfo();
+            console.log(`Updating Tapo device ${this.tapoDevice.alias}`);
+            console.trace({deviceStatus})
             this.onOffProperty.update(deviceStatus)
         } catch (error) {
-            console.log(`Error updating ${this.tapoDevice.alias} with ${this.deviceKey.token}`)
+            console.log(`Error updating ${this.tapoDevice.alias}`)
             console.error(error);
         }
     }
