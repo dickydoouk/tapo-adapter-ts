@@ -1,6 +1,5 @@
 import { Adapter, AddonManagerProxy, Database } from 'gateway-addon';
-import { cloudLogin, loginDevice } from 'tp-link-tapo-connect';
-import { isTapoDevice } from 'tp-link-tapo-connect/dist/tapo-utils';
+import { discoverLocalDevices } from 'tp-link-tapo-connect/dist/discover';
 import { MyTapoDevice } from './tapo-device';
 
 export class TapoAdapter extends Adapter {
@@ -22,16 +21,14 @@ export class TapoAdapter extends Adapter {
         const { username, password } = await this.getConfig();
         console.log(`Searching for Tapo devices - ${username}`)
 
-        const cloudApi = await cloudLogin(username, password);
-        const devices = await cloudApi.listDevices();
-        const tapoDevices = devices.filter(device => isTapoDevice(device.deviceType))
+        const tapoDevices = await discoverLocalDevices(username, password);
 
         console.log(`Found ${tapoDevices.length} Tapo devices`);
         
         tapoDevices.map(async device => {
-          const deviceApi = await loginDevice(username, password, device);
-          const deviceInfo = await deviceApi.getDeviceInfo();
-          this.handleDeviceAdded(new MyTapoDevice(this, device, deviceApi));
+          const tapoDevice = await device.loginDevice();
+          const deviceInfo = await tapoDevice.getDeviceInfo();
+          this.handleDeviceAdded(new MyTapoDevice(this, deviceInfo, tapoDevice));
         });
       }
 

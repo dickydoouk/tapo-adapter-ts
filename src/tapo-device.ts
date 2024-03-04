@@ -1,25 +1,25 @@
 import { Device } from 'gateway-addon';
 import { OnOffProperty } from './on-off-property';
 import { TapoAdapter } from './tapo-adapter';
-import { TapoDevice } from 'tp-link-tapo-connect';
+import { TapoDeviceInfo } from 'tp-link-tapo-connect';
 
 export class MyTapoDevice extends Device {
     private onOffProperty: OnOffProperty;
     
     constructor(
         adapter: TapoAdapter,
-        private tapoDevice: TapoDevice,
+        private tapoDevice: TapoDeviceInfo,
         private deviceApi: any
     ) {
-        super(adapter, 'tapo-'+tapoDevice.deviceId);
-        this.setTitle(tapoDevice.alias);
+        super(adapter, 'tapo-'+tapoDevice.device_id);
+        this.setTitle(tapoDevice.nickname);
         this.addType('OnOffSwitch');
         this.addType('Light');
         this.onOffProperty = new OnOffProperty(this);
         this.addProperty(this.onOffProperty);
 
-        console.log(`Found Tapo device ${tapoDevice.alias}`);
-        console.log({tapoDevice})
+        console.log(`Found Tapo device ${tapoDevice.nickname}`);
+        console.trace({tapoDevice})
     }
 
     addType(type: string): void {
@@ -27,7 +27,7 @@ export class MyTapoDevice extends Device {
     }
 
     async on(onState: boolean) {
-        console.log(`Turning ${this.tapoDevice.alias} ${onState?'On':'Off'}`);
+        console.log(`Turning ${this.tapoDevice.nickname} ${onState?'On':'Off'}`);
         if (onState) {
             await this.deviceApi.turnOn();
         } else {
@@ -38,11 +38,9 @@ export class MyTapoDevice extends Device {
     async update() {
         try {
             const deviceStatus = await this.deviceApi.getDeviceInfo();
-            console.log(`Updating Tapo device ${this.tapoDevice.alias}`);
-            console.trace({deviceStatus})
             this.onOffProperty.update(deviceStatus)
         } catch (error) {
-            console.log(`Error updating ${this.tapoDevice.alias}`)
+            console.log(`Error updating ${this.tapoDevice.nickname}`)
             console.error(error);
         }
     }
