@@ -3,7 +3,7 @@
     "id": "tapo-adapter-ts",
     "name": "TP-Link Tapo",
     "short_name": "tapo-adapter-ts",
-    "version": "0.0.2",
+    "version": "0.0.4",
     "description": "TP-Link Tapo adapter",
     "homepage_url": "https://github.com/dickydoouk/tapo-adapter-ts",
     "license": "ISC",

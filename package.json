@@ -1,6 +1,6 @@
 {
   "name": "tapo-adapter-ts",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "Webthings adapter for TP-Link Tapo devices",
   "main": "dist/index.js",
   "scripts": {
@@ -30,6 +30,6 @@
     "typescript": "^4.3.2"
   },
   "dependencies": {
-    "tp-link-tapo-connect": "^2.0.3"
+    "tp-link-tapo-connect": "^2.0.4"
   }
 }
